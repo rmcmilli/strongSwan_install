@@ -1,12 +1,12 @@
 #!/bin/bash
 #
 # This is a shell script created to install strongSwan and place a configuration file in the correct directory.
-# This script is currently supported for Ubuntu and CentOS
+# This script is currently built to operate on Ubuntu and CentOS
 #
 # Function to determine local IP address
 get_local_ip() {
     local_ip="$(ip route get 1.1.1.1 | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')"
-    #echo "Local IP address is $local_ip"
+    #echo "Local IP address is "$local_ip""
 }
 # Function to build IPsec configuration
 build_tunnel_config() {
@@ -55,6 +55,25 @@ build_base_config() {
     echo "Base config success. File placed in "$baseconfig"."
 }
 #
+# Check if strongSwan is already installed
+function strongswan_installed_ubuntu() {
+    if apt -qq list "$@" >/dev/null 2>&1; then
+        true
+    else
+        false
+    fi
+}
+#
+# Check if strongSwan is already installed on CentOS
+function strongswan_installed_centos() {
+    if yum list installed "$@" >/dev/null 2>&1; then
+        true
+    else
+        false
+    fi
+}
+#
+#
 # Define Associative Array
 declare -A mymap
 # Determine OS version
@@ -74,6 +93,7 @@ version=${mymap[ID]}
 shopt -s nocasematch
 # Check version
 if [[ "$version" =~ ubuntu ]]; then
+    #strongswan_installed_ubuntu strongswan
     sudo apt update &&
         sudo apt install strongswan &&
         sudo apt install strongswan-swanctl &&
@@ -84,6 +104,8 @@ if [[ "$version" =~ ubuntu ]]; then
     tunnelconfig=/etc/swanctl/conf.d/tunnel.conf
 #CentOS
 elif [[ "$version" =~ centos ]]; then
+    # Check if strongSwan is already installed
+    #strongswan_installed_centos
     sudo yum update &&
         sudo yum -y install epel-release strongswan
     #Set path for tunnel config file
