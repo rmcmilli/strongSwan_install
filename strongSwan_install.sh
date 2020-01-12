@@ -48,8 +48,11 @@ function configure_secondary_ip() {
         calculate_first_subnet_ip "$2"
         echo "${bold}Creating secondary IP "$first_subnet_ip" on dev "$local_int"${normal}"
         sudo ip addr add "$first_subnet_ip" brd + dev "$local_int"
-    else
+    elif [ "$1" == "no" ]; then
         echo "${bold}Not creating secondary IP address. If connection to source subnet does not already exist, routing may fail and 'ip route list table 220' WILL fail. ${normal}"
+    else 
+        echo "Please enter 'yes' or 'no'."
+        configure_secondary_ip "$1" "$2"
     fi
 }
 # Function to build IPsec configuration
