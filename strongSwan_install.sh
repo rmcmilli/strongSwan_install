@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # This is a shell script created to install strongSwan and place a configuration file in the correct directory.
-# This script is currently built to run on Ubuntu and CentOS. 
+# This script is currently built to run on Ubuntu and CentOS.
 # Default behavior is to authenticate via PSK
 #
 #
@@ -130,8 +130,8 @@ function determine_OS_version() {
         if [ "$line" = " " ] || [ "$line" = "" ]; then
             continue
         else
-        set -- $(echo $line | tr '=' ' ')
-        mymap["$1"]=$2
+            set -- $(echo $line | tr '=' ' ')
+            mymap["$1"]=$2
         fi
     done <<<"$(cat /etc/*release)"
     # Uncomment below to print the array
@@ -224,9 +224,9 @@ function restart_strongswan() {
     elif [[ "$version" =~ "centos" ]]; then
         sudo service strongswan restart
         sleep 3s
-        sudo swanctl -r && \
-        sudo swanctl -q && \
-        sudo swanctl -i --child env
+        sudo swanctl -r &&
+            sudo swanctl -q &&
+            sudo swanctl -i --child env
     fi
 }
 function get_client_variables() {
