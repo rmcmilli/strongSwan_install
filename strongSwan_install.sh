@@ -3,6 +3,7 @@
 # This is a shell script created to install strongSwan and place a configuration file in the correct directory.
 # This script is currently built to run on Ubuntu and CentOS.
 # Default behavior is to authenticate via PSK
+# Next goal is to have an un-interactive mode with flags
 #
 #
 #
