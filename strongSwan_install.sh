@@ -51,7 +51,7 @@ function configure_secondary_ip() {
     elif [ "$1" == "no" ]; then
         echo "${bold}Not creating secondary IP address. If connection to source subnet does not already exist, routing may fail and 'ip route list table 220' WILL fail. ${normal}"
     else 
-        echo "Please enter 'yes' or 'no'."
+        echo "${bold}Please enter 'yes' or 'no'.${normal}"
         configure_secondary_ip "$1" "$2"
     fi
 }
