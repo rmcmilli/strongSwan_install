@@ -123,7 +123,7 @@ validate_tunnel_config() {
             validate_tunnel_config
         fi
     else
-        echo "${bold}Creation of tunnel configuration failed. Please contact a Seed CX network engineer for assistance.${normal}"
+        echo "${bold}Creation of tunnel configuration failed.${normal}"
         exit 1
     fi
 }
@@ -134,7 +134,7 @@ build_base_config() {
     if sudo test -f "$baseconfig"; then
         echo "${bold}Base configuration success. File placed in $baseconfig.${normal}"
     else
-        echo "${bold}Base configuration creation failed. Please contact a Seed CX network engineer.${normal}"
+        echo "${bold}Base configuration creation failed.${normal}"
         exit 1
     fi
 }
@@ -250,7 +250,7 @@ check_and_install() {
             build_tunnel_config "$local_ip" "$remote_ip" "$ike_version" "$p1_reauth" "$p1_props" "$public_ip" "$source_subnet" "$destination_subnet" "$p2_rekey" "$p2_props" "$psk"
         fi
     else
-        echo "${bold}Version check failed. This usually means that the OS isn't yet supported by this script. Please contact a Seed CX network engineer for assistance. ${normal}"
+        echo "${bold}Version check failed. This usually means that the OS isn't yet supported by this script. ${normal}"
         exit 1
     fi
 }
@@ -272,9 +272,9 @@ restart_strongswan() {
 }
 # Get client variables
 get_client_variables() {
-    read -erp "${bold} *Enter remote endpoint public IP. Default Seed CX IP is 38.142.55.170. : " remote_ip
-    # Set default Seed CX public IP
-    remote_ip="${remote_ip:=38.142.55.170}"
+    read -erp "${bold} *Enter remote endpoint public IP. : " remote_ip
+    # Set default remote public IP
+    # remote_ip="${remote_ip:=}"
     # Have client enter public IP address
     read -erp "${bold} *Is your public IP address $generated_public_ip? If yes, press enter. If no, please enter your public IP. : " public_ip
     # Set default public IP to generated value
