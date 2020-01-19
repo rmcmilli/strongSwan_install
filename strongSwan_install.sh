@@ -39,13 +39,16 @@ install_dependencies() {
 }
 # Function to determine Public IP address
 get_public_ip() {
-    generated_public_ip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+    # generated_public_ip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+    generated_public_ip="$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com)"
     #echo "$generated_public_ip"
 }
 # Function to determine local IP address
 get_local_ip() {
-    local_ip="$(ip route get $remote_ip | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')"
-    local_int="$(ip route get $remote_ip | awk -F"dev " 'NR==1{split($2,a," ");print a[1]}')"
+    # local_ip="$(ip route get $remote_ip | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')"
+    remote_ip_route="$(ip route get "$remote_ip")"
+    local_ip="$(awk -F"src " 'NR==1{split($2,a," ");print a[1]}' <<<"$remote_ip_route")"
+    local_int="$(awk -F"dev " 'NR==1{split($2,a," ");print a[1]}' <<<"$remote_ip_route")"
     #echo "Local IP address is "$local_ip""
 }
 calculate_first_subnet_ip() {
@@ -55,7 +58,7 @@ calculate_first_subnet_ip() {
     B="$(cut -d '.' -f2 <<<"$subnet")"
     C="$(cut -d '.' -f3 <<<"$subnet")"
     D="$(cut -d '.' -f4 <<<"$subnet")"
-    let E=$D+1
+    (( E=D+1 ))
     first_subnet_ip="$A.$B.$C.$E/$mask"
 }
 configure_secondary_ip() {
