@@ -44,7 +44,8 @@ get_public_ip() {
 }
 # Function to determine local IP address
 get_local_ip() {
-    local_ip="$(ip route get $remote_ip | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')"
+    # local_ip="$(ip route get $remote_ip | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')"
+    local_ip="$(awk -F"src " 'NR==1{split($2,a," ");print a[1]}' <<<"ip route get $remote_ip")"
     local_int="$(ip route get $remote_ip | awk -F"dev " 'NR==1{split($2,a," ");print a[1]}')"
     #echo "Local IP address is "$local_ip""
 }
