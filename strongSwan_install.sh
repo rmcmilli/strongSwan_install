@@ -46,9 +46,9 @@ get_public_ip() {
 # Function to determine local IP address
 get_local_ip() {
     # local_ip="$(ip route get $remote_ip | awk -F"src " 'NR==1{split($2,a," ");print a[1]}')"
-    remote_ip_route="$(ip route get $remote_ip)"
+    remote_ip_route="$(ip route get "$remote_ip")"
     local_ip="$(awk -F"src " 'NR==1{split($2,a," ");print a[1]}' <<<"$remote_ip_route")"
-    local_int="$(ip route get $remote_ip | awk -F"dev " 'NR==1{split($2,a," ");print a[1]}')"
+    local_int="$(awk -F"dev " 'NR==1{split($2,a," ");print a[1]}' <<<"$remote_ip_route")"
     #echo "Local IP address is "$local_ip""
 }
 calculate_first_subnet_ip() {
