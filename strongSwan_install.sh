@@ -39,7 +39,8 @@ install_dependencies() {
 }
 # Function to determine Public IP address
 get_public_ip() {
-    generated_public_ip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+    # generated_public_ip="$(dig +short myip.opendns.com @resolver1.opendns.com)"
+    generated_public_ip="$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com)"
     #echo "$generated_public_ip"
 }
 # Function to determine local IP address
