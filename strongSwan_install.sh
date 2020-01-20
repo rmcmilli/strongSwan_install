@@ -58,7 +58,7 @@ calculate_first_subnet_ip() {
     B="$(cut -d '.' -f2 <<<"$subnet")"
     C="$(cut -d '.' -f3 <<<"$subnet")"
     D="$(cut -d '.' -f4 <<<"$subnet")"
-    (( E=D+1 ))
+    ((E = D + 1))
     first_subnet_ip="$A.$B.$C.$E/$mask"
 }
 configure_secondary_ip() {
